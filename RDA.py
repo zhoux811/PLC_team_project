@@ -1,8 +1,10 @@
-from PLCproject2.lex import CalcLexer
+from lex import CalcLexer
 from time import sleep
+import os
+import sys
 
 
-def syntax_error(s):        # for testing
+def syntax_error(s):  # for testing
     print(s)
     print('syntax_error')
 
@@ -16,7 +18,7 @@ def stmt(s):
     print('\tenter <stmt>')
     if s[0][1] == 'VAR_NAME':
         assignment_stmt(s)
-    elif s[0][0] == 'Print' or  s[0][0] == 'Return':
+    elif s[0][0] == 'Print' or s[0][0] == 'Return':
         func_call(s)
     elif s[0][1] == 'FUNC_NAME':
         variable_declaration(s)
@@ -126,7 +128,20 @@ def ini(s):
     type1_value0.clear()
 
 
-line_n = 0
-for line in samples.split(sep='\n'):
-    ini(line)
-    break
+def main(fname):
+    f = open(fname)
+    if f:
+        print('open file: ' + fname)
+    else:
+        print('file open error. abort')
+        return 0
+    for l in f:
+        ini(l)
+    f.close()
+
+
+if __name__ == '__main__':
+    try:
+        main(fname=sys.argv[1])
+    except:
+        print('you need to specify the input file name')

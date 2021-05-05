@@ -1,4 +1,6 @@
 from sly import Lexer
+import os
+import sys
 
 
 class CalcLexer(Lexer):
@@ -12,7 +14,7 @@ class CalcLexer(Lexer):
     }
 
     # String containing ignored characters between tokens
-    ignore = ' \t'
+    ignore = ' \t\n'
 
     # Regular expression rules for tokens
     VAR_NAME = r'[a-z][a-zA-Z0-9]{0,9}'
@@ -33,12 +35,25 @@ class CalcLexer(Lexer):
     literals = {'(', ')', '{', '}', ';'}
 
 
-
-if __name__ == '__main__':
+def main(fname):
     line_n = 0
-    for line in samples.split(sep='\n'):
+    f = open(fname, 'r')
+    if f:
+        print('open file: ' + fname)
+    else:
+        print('file open error. abort')
+        return 0
+    for line in f:
         lexer = CalcLexer()
         print('\n\n\nline_n: ' + str(line_n) + ' : ' + line)
         for tok in lexer.tokenize(line):
             print('\ttype=%r,  \tvalue=%r' % (tok.type, tok.value))
         line_n += 1
+    f.close()
+
+
+if __name__ == '__main__':
+    try:
+        main(fname = sys.argv[1])
+    except:
+        print('you need to specify the input file name')

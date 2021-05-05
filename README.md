@@ -3,10 +3,14 @@
 # HOW TO USE
 (You need sly library before you can run the code)
 
-lexical analysis:
-  python lex.py <input_filename>	   # file extension does not matter
+lexical analysis:<br>
+<t>python lex.py <input_filename>	   # file extension does not matter
 
-Syntax analyzer:
-  python RDA.py <input_filename>    # file extension does not matter
+Syntax analyzer:<br>
+<t>python RDA.py <input_filename>    # file extension does not matter
   
- sample input file included.
+<t> sample input file included.
+
+If it cannot find input file:
+>>>python lex_demo.py 
+>>>python RDA_demo.py 

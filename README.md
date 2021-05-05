@@ -12,5 +12,5 @@ python RDA.py <input_filename>    # file extension does not matter
 sample input file included.
 
 If it cannot find input file:
-  python lex_demo.py 
+  python lex_demo.py <br>
   python RDA_demo.py 

@@ -1,14 +1,14 @@
 from PLCproject2.lex import CalcLexer
-import string
 from time import sleep
 
-def syntax_error(s):
+
+def syntax_error(s):        # for testing
     print(s)
     print('syntax_error')
 
 
 def lex(s):
-    print('token value: %s \t token type: %s' % (s[0][0], s[0][1]))
+    print('\t\t\t\t\t\t\ttoken value: %s \t token type: %s' % (s[0][0], s[0][1]))
     s.pop(0)
 
 
@@ -16,6 +16,8 @@ def stmt(s):
     print('\tenter <stmt>')
     if s[0][1] == 'VAR_NAME':
         assignment_stmt(s)
+    elif s[0][0] == 'Print' or  s[0][0] == 'Return':
+        func_call(s)
     elif s[0][1] == 'FUNC_NAME':
         variable_declaration(s)
     else:
@@ -28,7 +30,7 @@ def assignment_stmt(s):
     lex(s)
     if s[0][0] == '=':
         lex(s)
-        if s[0][1] in ['NUM_INT', 'NUM_REAL', 'STRING_LIT', 'FUNC_NAME']:
+        if s[0][1] in ['NUM_INT', 'NUM_REAL', 'STRING_LIT', 'FUNC_NAME', 'BOOLEAN_LIT', 'SPECIAL_LIT']:
             expr(s)
         else:
             syntax_error(s)
@@ -79,10 +81,10 @@ def fac(s):
         lex(s)
     elif s[0][1] == 'FUNC_NAME':
         func_call(s)
-    elif s[0][1] in ['NUM_INT', 'NUM_REAL', 'STRING_LIT']:
+    elif s[0][1] in ['NUM_INT', 'NUM_REAL', 'STRING_LIT', 'BOOLEAN_LIT', 'SPECIAL_LIT']:
         lex(s)
     else:
-        print('bad fac')
+        print('bad/empty fac')
     print('\t\t\t\t\tleave <fac>')
 
 
@@ -95,7 +97,7 @@ def func_call(s):
             expr(s)
             if s[0][0] == ')':
                 lex(s)
-                #sleep(10)
+                # sleep(10)
             else:
                 print('this function call is missing enclosing ) ')
         else:
@@ -107,6 +109,10 @@ def func_call(s):
 
 
 def ini(s):
+    if len(s) == 0:
+        print('empty line')
+        return 0
+
     type1_value0 = []
     lexer = CalcLexer()
     print('\nline of code: ' + s)
@@ -120,12 +126,7 @@ def ini(s):
     type1_value0.clear()
 
 
-samples = '''String s = "12345"
-b = Function1(a+b) * Function2( Function3(4 % n) )
-a = Function(a+b)+g
-x = -3 + 42 * s - t
-'''
 line_n = 0
 for line in samples.split(sep='\n'):
     ini(line)
-
+    break

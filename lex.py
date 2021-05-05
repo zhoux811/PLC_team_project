@@ -5,9 +5,9 @@ class CalcLexer(Lexer):
     # Set of token names.   This is always required
     tokens = {
         VAR_NAME, FUNC_NAME,
-        NUM_INT, NUM_REAL,
-        OP_PLUS, OP_MINUS, OP_TIMES, OP_DIVIDE, OP_MODULO,
-        ASSIGN, PAREN_L, PAREN_R
+        NUM_INT, NUM_REAL, STRING_LIT, BOOLEAN_LIT, SPECIAL_LIT,
+        ARITH_OP,
+        ASSIGN, PAREN_L, PAREN_R,
 
     }
 
@@ -18,24 +18,23 @@ class CalcLexer(Lexer):
     VAR_NAME = r'[a-z][a-zA-Z0-9]{0,9}'
     FUNC_NAME = r'[A-Z][a-zA-Z0-9]{0,9}'
 
-    NUM_INT = r'[\d]{1,5}'
-    NUM_REAL = r'[\d]{1,9}\.[\d]{1,9}'
+    NUM_INT = r'-?[\d]{1,5}'
+    NUM_REAL = r'-?[\d]{1,9}\.[\d]{1,9}'
+    STRING_LIT = r'".{1,99}"'
+    BOOLEAN_LIT = r'_True|_False'
+    SPECIAL_LIT = r'_None|_Null'
 
-    OP_PLUS = r'\+'
-    OP_MINUS = r'-'
-    OP_TIMES = r'\*'
-    OP_DIVIDE = r'/'
-    OP_MODULO = r'%'
+    ARITH_OP = r'\+|-|\*|/|%'
 
     ASSIGN = r'='
     PAREN_L = r'\('
     PAREN_R = r'\)'
 
+    literals = {'(', ')', '{', '}', ';'}
+
+
 
 if __name__ == '__main__':
-    samples = '''x = 3 + 42 * s - t
-a = Function(a+b)
-b = Function1(a+b) * Function2( Function3(4 % n) )'''
     line_n = 0
     for line in samples.split(sep='\n'):
         lexer = CalcLexer()
